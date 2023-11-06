@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const PORT = process.env.port || 3001;
 
 const app = express();
@@ -15,15 +16,17 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
+// GET Route for /api/notes
+app.get('/api/notes', (req, res) =>
+  res.sendFile(path.join(__dirname, './db/db.json'))
+);
+
 // GET Route for feedback page
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
-// GET Route for /api/notes
-app.get('/api/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, './db/db.json'))
-);
+
 
 // Post Route for /api/notes
 app.post('/api/notes', (req,res) => {
