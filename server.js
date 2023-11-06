@@ -22,8 +22,19 @@ app.get('*', (req, res) =>
 
 // GET Route for /api/notes
 app.get('/api/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, './db/db.json'));
+  res.sendFile(path.join(__dirname, './db/db.json'))
 );
+
+// Post Route for /api/notes
+app.post('/api/notes', (req,res) => {
+    let myNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    let inNote = req.body;
+    let newID = myNotes.length.toString();
+    inNote.id = newID;
+    myNotes.push(inNote);
+    fs.writeFileSync("./db/db.json", JSON.stringify(myNotes));
+    res.json(myNotes);
+});
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
